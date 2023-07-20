@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 void main() {
-
   runApp(const MyApp());
 }
 
@@ -9,11 +8,12 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      debugShowCheckedModeBanner:false ,
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -26,129 +26,124 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter New Batch'),
+      home: const HomePage(
+        title: "Hello Friends",
+      ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class HomePage extends StatefulWidget {
+  final String? title;
+  const HomePage({Key? key, this.title}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-
-    });
-
-    _counter++;
-
-    print(_counter);
-  }
-
+class _HomePageState extends State<HomePage> {
+  bool value =false;
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        centerTitle: true,
+        title: Text(widget.title!),
         elevation: 0,
-        leading:IconButton(onPressed: () {
-          print("CLick");
+        centerTitle: true,
 
-        }, icon: const Icon(Icons.access_time_filled_rounded, size: 45,color: Colors.red,),
-
-        ),
-        backgroundColor: Colors.black,
-
-        title: Text(widget.title,style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Colors.purpleAccent), ),
       ),
-      body: Center(
+        body:
 
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-
-
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: TextField(
-              decoration: InputDecoration(
-                label: Text("Name"),
-                hintText: "Input your name",
-                suffix: Icon(Icons.person),
-                prefix:  Icon(Icons.phone),
-                contentPadding: EdgeInsets.all(20)
-
-
-              ),
-              ),
-            ),
-
-            Divider(
-              height: 20,
-              thickness: 8,
-
-              color: Colors.red,
-            ),
-
-            Container(
-              color: Colors.red,
-              height: 200,
-              width: 200,
-              child: Center(child: Text("Container", style: TextStyle(color: Colors.white, fontSize: 24),)),
-
-            ),
-
-            Row(
-
+        SafeArea(
+          
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 200,
-                    child: ElevatedButton(onPressed: (){}, child: Text("Button"),
+                Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    Container(
+                      color: Colors.green,
+                      height: 500,
+                      width: 500,
+                    ),
 
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      elevation: 0
+
+                    GestureDetector(
+                      onTap: (){
+                        print("OnTap");
+
+                      },
+                      onDoubleTap: (){
+                        print("on Double Tap");
+                      },
+                      child: Container(
+
+                        height: 250,
+                        width: 200,
+                        decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle
+
+                        ),
+                        child: Center(child: Text("Click")),
+                      ),
                     ),
-                    ),
-                  ),
+
+                    // Expanded(
+                    //   child: Container(
+                    //     color: Colors.deepPurple,
+                    //     height: 200,
+                    //     width: 500,
+                    //   ),
+                    // ),
+                  ],
                 ),
-                Spacer()
+                Text("Flag"),
+
+                ListTile(
+
+                  title: value? Text("Faruk vai"):Text("Sagor vai"),
+                  subtitle: Text(value.toString()),
+                  trailing: Switch(
+                    onChanged: (bool values) {
+
+                    value = !value;
+
+                    print(value);
+                    setState(() {
+
+                    });
+                  }, value: value,),
+                  leading: Image.network("https://w7.pngwing.com/pngs/481/915/png-transparent-computer-icons-user-avatar-woman-avatar-computer-business-conversation.png"),
+                ),
+
+                Checkbox(value: value, onChanged: (v){
+                  value = !value;
+                  setState(() {
+
+                  });
+                }),
+
+                CircularProgressIndicator(),
+                LinearProgressIndicator(),
+
+
+                
+                ExpansionTile(
+
+                  title: Text("Click"), subtitle: Text("Subtitle"),
+                
+                children: [
+                  Text("Data")
+                ],
+                ),
+
+                SizedBox(height: 50,),
               ],
-            )
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+            ),
+          ),
+        ));
   }
 }
